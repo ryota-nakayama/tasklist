@@ -1,28 +1,34 @@
-<h1>タスク一覧</h1>
-
-<% if @tasks.any? %>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>id</th>
-        <th>タスク</th>
-        <th>ステータス</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @tasks.each do |task| %>
+<% if logged_in? %>
+  <p>ログイン完了ユーザ: <%= current_user.name %></p>
+  
+  <h1>タスク一覧</h1>
+  
+  <% if @tasks.any? %>
+    <table class="table table-striped">
+      <thead>
         <tr>
-          <td><%= link_to task.id, task %></td>
-          <td><%= task.content %></td>
-          <td><%= task.status %></td>
+          <th>id</th>
+          <th>タスク</th>
+          <th>ステータス</th>
         </tr>
-      <% end %>  
-    </tbody>
-  </table>
-  <div>
-    <%= paginate @tasks %>
-  </div>
-<% end %>  
+      </thead>
+      <tbody>
+        <% @tasks.each do |task| %>
+          <tr>
+            <td><%= link_to task.id, task %></td>
+            <td><%= task.content %></td>
+            <td><%= task.status %></td>
+          </tr>
+        <% end %>  
+      </tbody>
+    </table>
+    <div>
+      <%= paginate @tasks %>
+    </div>
+  <% end %>  
+  
+  <%= link_to "新規タスクの作成", new_task_path, class: "btn btn-primary" %>
+<% else %>
 
-<%= link_to "新規タスクの作成", new_task_path, class: "btn btn-primary" %>
-<%= link_to "Sign up now!", signup_path, class: "btn btn-secondary" %>
+  <%= link_to "Sign up now!", signup_path, class: "btn btn-secondary" %>
+<% end %>  
